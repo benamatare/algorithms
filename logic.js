@@ -181,3 +181,99 @@ fib2 = int => {
  }
  return fib2(int-1) + fib(int-2);
 }
+
+// This was not fun
+// Write a function that does the following
+// ________________________________________
+//  (([)); => False
+//  ()()()(){}; => True
+//
+
+validate = str => {
+ const left = ['(','{','['];
+ const right = [')','}',']'];
+
+ let counter1 = 0;
+ let counter2 = 0;
+ let counter3 = 0;
+
+ const checker = str => {
+  arr = str.split('');
+  for (char of arr) {
+    // () Tracking
+    left[0].includes(char) ? counter1++ : null
+    right[0].includes(char) ? counter1-- : null
+    // [] Tracking
+    left[1].includes(char) ? counter2++ : null;
+    right[1].includes(char) ? counter2-- : null;
+    // {} Tracking
+    left[2].includes(char) ? counter3++ : null
+    right[2].includes(char) ? counter3-- : null
+  }
+ };
+ // If the string is 1 character , then we know it's false, otherwise run it through the checker function
+ str.length < 1 ? false : checker(str);
+
+ // Check each counter, if any of them are not equal to 0 then we know that it's a broken string
+  console.log(counter1, counter2, counter3)
+
+ return counter1 != 0 || counter2 != 0 || counter3 != 0 ? false : true;
+};
+
+const str = "(( [ ) ] )'";
+const str1 = "[()[]]{{)}}"
+const str2 = "([ } ]";
+const str3 = "( ( ( ( ( ) ) ) ) )";
+
+validate(str1);
+
+// Traverse a matrix an get the absolute difference between left and right diagonals
+const matrix = [
+  [3],
+  [11,2,4],
+  [4,5,6],
+  [10,8,-12]
+];
+
+const matrix2 = [
+  [4],
+  [-1,1,-7,-8],
+  [-10,-8,-5,-2],
+  [0,9,7,-1],
+  [4,4,-2,1]
+]
+diagonal = matrix => {
+ // Get left diagonal
+  const left = () => {
+    const store = [];
+      matrix.forEach((el, index) => {
+        if ( el.length > 2) {
+          store.push(el[index-1])
+        } else {
+          null
+        }
+      })
+      return store.reduce((result, el) => {
+        return result += el;
+      })
+  }
+ // Get the right diagonal
+  const right = () => {
+    const store = [];
+      matrix.reverse().forEach((el, index) => {
+        if ( el.length > 2) {
+          store.push(el[index])
+        } else {
+          null
+        }
+      })
+      return store.reduce((result, el) => {
+        return result += el;
+      })
+  }
+  const result1 = left();
+  const result2 = right();
+
+ // Return difference
+ return Math.abs(result1 - result2);
+}
